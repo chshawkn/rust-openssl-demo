@@ -1,0 +1,27 @@
+# see: http://lint.travis-ci.org
+
+language: cpp
+
+before_install:
+- echo before_install
+- brew update
+- brew install aria2 bash
+- curl https://sh.rustup.rs -sSf | sh -s -- -y
+
+cache:
+  directories:
+  - $HOME/.cargo
+  - $HOME/Library/Caches/Homebrew
+
+install: true
+
+os:
+- osx
+
+osx_image: xcode8.3
+
+script:
+- echo script
+- bash ci.sh
+- pwd
+- export PATH="$PATH:$HOME/.cargo/bin"

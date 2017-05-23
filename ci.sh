@@ -4,8 +4,7 @@ set -e
 
 rustup target list | grep ios | awk '{print $1}' | xargs rustup target add
 
-#aarch64-apple-ios armv7-apple-ios armv7s-apple-ios
-RUST_IOS_ARCHS="i386-apple-ios x86_64-apple-ios"
+RUST_IOS_ARCHS="i386-apple-ios x86_64-apple-ios aarch64-apple-ios armv7-apple-ios armv7s-apple-ios"
 RUST_ARCHS="${RUST_IOS_ARCHS} x86_64-apple-darwin"
 
 LIB_NAME="openssl-1.1.0e"
@@ -26,19 +25,8 @@ do
     tar xzf "tmp/${ARCHIVE}" --strip-components=1 -C "tmp/${LIB_NAME}-${RUST_ARCHS_ARRAY[i]}"
 done
 
-#export OPENSSL_INCLUDE_DIR=""
-#export OPENSSL_LIB_DIR=""
 export OPENSSL_STATIC="static"
 export OPENSSL_LIBS="ssl:crypto"
-
-# If openssl is built with zlib, it will fail to link statically
-# https://github.com/sfackler/rust-openssl/issues/590
-# zlib is only used for TLS compression which you should not be using
-# That can be turned off by passing no-comp to Configure
-
-# Symbol rust_crypto_util_fixed_time_eq_asm missing for aarch64 builds
-# https://github.com/DaGenix/rust-crypto/issues/383
-# https://github.com/DaGenix/rust-crypto/pull/384
 
 ORIGINAL_PATH="${PATH}"
 
@@ -55,7 +43,3 @@ do
 
     (cd bin-depends-on-rlib; cargo build --target=${RUST_ARCH} --verbose;)
 done
-
-##cargo install cargo-lipo
-#export OPENSSL_DIR="$(pwd)/tmp/${LIB_NAME}-universal-apple-ios"
-#cargo lipo
