@@ -1,0 +1,14 @@
+[package]
+name = "bin-depends-on-rlib"
+version = "0.1.0"
+
+[dependencies]
+#https://github.com/rust-lang-nursery/rand
+rand = "0.3"
+rlib-depends-on-rust-openssl = { version = "0.1.0", path = "../rlib-depends-on-rust-openssl" }
+#https://github.com/rust-lang-deprecated/time
+time = "0.1"
+
+[[bin]]
+name = "bin-depends-on-rlib"
+path = "src/bin/bin-depends-on-rlib.rs"

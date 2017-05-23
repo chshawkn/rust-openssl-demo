@@ -1,0 +1,2 @@
+[workspace]
+members = ["bin-depends-on-rlib", "rlib-depends-on-rust-openssl"]

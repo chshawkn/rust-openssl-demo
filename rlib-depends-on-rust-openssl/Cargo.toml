@@ -1,0 +1,22 @@
+[package]
+name = "rlib-depends-on-rust-openssl"
+version = "0.1.0"
+
+[dependencies]
+#https://github.com/carllerche/bytes
+bytes = "0.4"
+#https://github.com/rust-lang/libc
+libc = "0.2"
+#https://github.com/rust-lang-nursery/rand
+rand = "0.3"
+#https://github.com/DaGenix/rust-crypto
+rust-crypto = "0.2"
+#https://github.com/sfackler/rust-openssl
+openssl = "0.9"
+
+[replace]
+"openssl:0.9.12" = { git = "https://github.com/chshawkn/rust-openssl" }
+
+[lib]
+name = "rlib_depends_on_rust_openssl"
+crate_type = ["rlib"]
