@@ -6,6 +6,8 @@ before_install:
 - echo before_install
 - brew update
 - brew install aria2 bash
+- brew tap chshawkn/homebrew-brew-tap
+- brew install openssl@1.1.0.e
 - curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 cache:
