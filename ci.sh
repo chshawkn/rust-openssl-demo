@@ -16,13 +16,16 @@ mkdir -p $(pwd)/tmp
 RUST_ARCHS_ARRAY=(${RUST_ARCHS})
 for ((i=0; i < ${#RUST_ARCHS_ARRAY[@]}; i++))
 do
-    ARCHIVE="${LIB_NAME}-${RUST_ARCHS_ARRAY[i]}.tar.gz"
+    RUST_ARCH="${RUST_ARCHS_ARRAY[i]}"
+    ARCHIVE="${LIB_NAME}-${RUST_ARCH}.tar.gz"
     ARCHIVE_URL="${LIB_URL_PREFIX}/${ARCHIVE}"
     [ -f "tmp/${ARCHIVE}" ] || aria2c --file-allocation=none -c -x 10 -s 10 -m 0 --console-log-level=notice --log-level=notice --summary-interval=0 -d "$(pwd)/tmp" -o "${ARCHIVE}" "${ARCHIVE_URL}"
 
-    rm -rf "tmp/${LIB_NAME}-${RUST_ARCHS_ARRAY[i]}"
-    mkdir -p "tmp/${LIB_NAME}-${RUST_ARCHS_ARRAY[i]}"
-    tar xzf "tmp/${ARCHIVE}" --strip-components=1 -C "tmp/${LIB_NAME}-${RUST_ARCHS_ARRAY[i]}"
+    if [ ! -d "tmp/${LIB_NAME}-${RUST_ARCH}" ]; then
+        rm -rf "tmp/${LIB_NAME}-${RUST_ARCH}"
+        mkdir -p "tmp/${LIB_NAME}-${RUST_ARCH}"
+        tar xzf "tmp/${ARCHIVE}" --strip-components=1 -C "tmp/${LIB_NAME}-${RUST_ARCH}"
+    fi
 done
 
 export OPENSSL_STATIC="static"
